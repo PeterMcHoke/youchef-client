@@ -1,0 +1,47 @@
+.account-section {
+    background: linear-gradient(#f5f5f5, #bfbfbf);
+    height: 100vh;
+}
+
+.account-form {
+
+    background: white;
+    display: flex;
+    width: 400px;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: left;
+    margin: 0 auto;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0px 3px 15px rgba(0,0,0,0.1);
+}
+
+.account-form h1 {
+    margin-bottom: 10px;
+}
+
+.form-section {
+    padding: 20px 10px 0px 10px;
+}
+
+.account-form input {
+    font-family: 'Rubik', sans-serif;
+    font-weight: 500;
+    color: #212121;
+    border: none;
+    border-bottom: 2px solid lightgrey;
+    margin-top: 8px;
+    padding: 5px;
+    width: 75%;
+}
+
+.account-form input:focus {
+    border: none;
+    border-bottom: 2px solid #0077aa;
+    outline: none;
+}
+
+.form-element {
+    margin: 10px 0px;
+}

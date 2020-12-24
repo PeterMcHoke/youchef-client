@@ -1,0 +1,219 @@
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,400;0,700;1,400;1,700&family=Rubik:wght@300;400;500;600;700&display=swap');
+
+.registration-form {
+    width: 300px;
+    position: absolute;
+    left: 50%;
+    -webkit-transform: translate(-50%, 0%);
+          transform: translate(-50%, 0%);
+    top: 15%;
+    background: transparent;
+    box-shadow: 0px 3px 15px rgba(0,0,0,0.1);
+    border-radius: 15px 15px 15px 15px;
+}
+.registration-form header {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    position: relative;
+    z-index: 4;
+    background: white;
+    padding: 20px 15px;
+    border-radius: 15px 15px 0 0;
+}
+.registration-form header h1 {
+    text-align: center;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    color: #1083bb;
+    font-size: 23px;
+    margin: 0;
+}
+.registration-form header p {
+    text-align: center;
+    word-spacing: 0px;
+    color: #9facb6;
+    font-size: 15px;
+    margin: 0;
+    margin-top: 5px;
+}
+.registration-form form {
+    position: relative;
+}
+.registration-form .input-section {
+    width: 100%;
+    position: absolute;
+    display: -webkit-box;
+    display: flex;
+    left: 50%;
+    -webkit-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
+    height: 75px;
+    border-radius: 0 0 15px 15px;
+    overflow: hidden;
+    z-index: 2;
+    box-shadow: 0px 3px 15px rgba(0,0,0,0.1);
+    -webkit-transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in;
+}
+
+.registration-form .input-section.folded {
+    width: 95%;
+    margin-top: 10px;
+    left: 50%;
+    -webkit-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
+    z-index: 1;
+}
+
+
+.registration-form .input-section.folded input {
+  background-color: #facc06;
+}
+.registration-form .input-section.folded span {
+  background-color: #facc06;
+}
+.registration-form .input-section.folded + .folded {
+  width: 90%;
+  margin-top: 20px;
+  left: 50%;
+  -webkit-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
+  z-index: 0;
+}
+.registration-form .input-section.folded + .folded input {
+  background-color: #e1bcef;
+}
+.registration-form .input-section.folded + .folded span {
+  background-color: #e1bcef;
+}
+.registration-form .input-section.fold-up {
+  margin-top: -65px;
+  box-shadow: none;
+}
+.registration-form form input {
+  background: white;
+  color: #4f4f4f;
+  width: 80%;
+  border: 0;
+  padding: 20px 40px;
+  margin: 0;
+  font-family: 'Rubik',sans-serif;
+  font-size: 16px;
+}
+.registration-form form input:focus {
+  outline: none;
+}
+.registration-form form input::-webkit-input-placeholder {
+  color: #5a9cbb;
+  font-weight: 100;
+}
+.registration-form form input::-moz-placeholder {
+  color: #5a9cbb;
+  font-weight: 100;
+}
+.registration-form form input:-ms-input-placeholder {
+  color: #5a9cbb;
+  font-weight: 100;
+}
+.registration-form form input::-ms-input-placeholder {
+  color: #5a9cbb;
+  font-weight: 100;
+}
+.registration-form form input::placeholder {
+  color: #5a9cbb;
+  font-weight: 100;
+}
+
+.animated-button {
+  width: 20%;
+  background-color: #d4f1ff;
+}
+.animated-button span {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+          flex-direction: row;
+  justify-content: space-around;
+  -webkit-box-align: center;
+          align-items: center;
+  line-height: 75px;
+  text-align: center;
+  height: 75px;
+  -webkit-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+}
+.animated-button span i {
+  font-size: 25px;
+  color: #1083bb;
+}
+.animated-button .next-button {
+  background: transparent;
+  color: #1083bb;
+  font-weight: 100;
+  width: 100%;
+  border: 0;
+}
+
+.next {
+  margin-top: -75px;
+}
+
+.success {
+  width: 99%;
+  position: absolute;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+          align-items: center;
+  left: 50%;
+  -webkit-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
+  height: 60px;
+  border-radius: 0 0 15px 15px;
+  overflow: hidden;
+  z-index: 0;
+  box-shadow: 0px 0px 100px rgba(0, 0, 0, 0.2);
+  -webkit-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+  background-color: #e4ba05 !important;
+}
+.success p {
+
+  color: white;
+  font-weight: 900;
+  letter-spacing: 2px;
+  font-size: 18px;
+  width: 100%;
+  text-align: center;
+}
+
+
+@media only screen and (min-width: 400px) {
+    .registration-form {
+        width: 400px;
+    }
+
+}
+
+i.fa-eye-slash {
+    margin: 25px;
+}
+
+i.fa-eye-slash:hover {
+    cursor: pointer;
+}
+
+.registration-form .input-section.folded i.fa-eye-slash {
+    display: none;
+}
+
+.showing {
+    background-color: white;
+}
+
+section.signUp {
+    position: absolute;
+    bottom: 0;
+}
