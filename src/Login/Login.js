@@ -3,6 +3,8 @@ import * as API from '../apiCalls'
 import '../SignUp/SignUp.css'
 import Context from '../Context.js'
 import { Link } from 'react-router-dom'
+import { StyledLinkWrapper, StyledLink } from '../elements/StyledLink/StyledLink'
+import { UserNotice } from '../elements/UserNotice/UserNotice'
 
 export default function Login(props) {
 
@@ -122,6 +124,7 @@ export default function Login(props) {
 
     return (
         <>
+        { !context.isLoggedIn() &&
             <div className="registration-form">
                 { section !== 'email' && <div className="back-arrow" onClick={prevSection}><i className="fa fa-arrow-left fa-lg"></i></div> }
             <header>
@@ -143,11 +146,25 @@ export default function Login(props) {
                 </div>
             </form>
         </div>
-
+        }
+        { context.isLoggedIn() &&
+            <>
+            <UserNotice>
+                <h2> You're logged in </h2>
+            </UserNotice>
+            <StyledLinkWrapper center>
+                <StyledLink exact to={'/find-recipes'} textColor='#00476A'>
+                    Find Recipes
+                </StyledLink>
+            </StyledLinkWrapper>
+            </>
+        }
+        { !context.isLoggedIn() &&
         <section className="center signUp">
             <h3> Don't have an account? </h3>
             <div className='small-margin-top'><Link to='/sign-up'> Sign Up </Link></div>
         </section>
+        }
         </>
 
     )

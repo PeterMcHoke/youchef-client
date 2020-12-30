@@ -15,7 +15,10 @@
     padding: 30px;
     border-radius: 16px;
     box-shadow: 0px 3px 15px rgba(0,0,0,0.1);
+
+
 }
+
 
 .account-form h1 {
     margin-bottom: 10px;
@@ -44,4 +47,29 @@
 
 .form-element {
     margin: 10px 0px;
+}
+
+
+
+@media only screen and (max-width: 600px) {
+    .account-form {
+        width: 90%;
+        margin: 0 auto;
+        padding: 1rem;
+    }
+    .account-form h1 {
+        font-size: 1.5em;
+    }
+
+    .account-form input {
+        width: auto;
+        padding: 0;
+    }
+    .form-element {
+        margin-bottom: 15px;
+    }
+
+    .fa-eye-slash:before {
+        display: none;
+    }
 }

@@ -9,6 +9,10 @@ import Home from '../Home/Home'
 import Login from '../Login/Login'
 import UserProfile from '../UserProfile/UserProfile'
 import CookieService from '../CookieService'
+import { GlobalStyles } from '../elements/global.js'
+import { ThemeProvider } from 'styled-components';
+import { theme } from '../elements/theme';
+
 
 export default class App extends Component {
     state = {
@@ -68,19 +72,22 @@ export default class App extends Component {
         }
 
         return (
-          <>
-            <Context.Provider value={ value }>
-                <Nav />
-                <main className='App'>
-                    <Route exact path='/' component = {Home} />
-                    <Route path='/find-recipes' component={Pantry} />
-                    <Route path='/sign-up' component={SignUp} />
-                    <Route path='/login' component={Login} />
-                    <Route path='/cookbook' component={Cookbook}/>
-                    <Route path='/account' component={UserProfile} />
-                </main>
-            </Context.Provider>
-        </>
+            <ThemeProvider theme={theme}>
+              <>
+              <GlobalStyles />
+                <Context.Provider value={ value }>
+                    <Nav />
+                    <main className='App'>
+                        <Route exact path='/' component = {Home} />
+                        <Route path='/find-recipes' component={Pantry} />
+                        <Route path='/sign-up' component={SignUp} />
+                        <Route path='/login' component={Login} />
+                        <Route path='/cookbook' component={Cookbook}/>
+                        <Route path='/account' component={UserProfile} />
+                    </main>
+                </Context.Provider>
+            </>
+        </ThemeProvider>
       );
   }
 }

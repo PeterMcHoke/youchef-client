@@ -3,6 +3,8 @@ import Context from '../Context'
 import * as API from '../apiCalls'
 import './UserProfile.css'
 
+import { StyledLinkWrapper, StyledLink } from '../elements/StyledLink/StyledLink'
+
 export default function UserProfile(props) {
     const context = React.useContext(Context)
     const [passwordType, setPasswordType] = useState('password');
@@ -70,6 +72,13 @@ export default function UserProfile(props) {
                     </div>
                 </form>
             </div>
+            { context.isLoggedIn() &&
+                <StyledLinkWrapper center>
+                    <StyledLink exact to={'/'} className='nav-link button' onClick={()=> context.logout()} textColor='#00476A'>
+                        Logout
+                    </StyledLink>
+                </StyledLinkWrapper>
+            }
         </section>
     )
 }

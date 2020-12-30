@@ -26,22 +26,6 @@ body {
   text-align: center;
 }
 
-header {
-  text-align: center;
-  color: #00476a;
-}
-
-header h1 {
-  font-size: 32px;
-}
-h2 {
-  color: #00476a;
-  font-size: 20px;
-}
-
-h3 {
-  font-size: 1em;
-}
 
 sub {
   color: #1083bb;
@@ -785,9 +769,6 @@ ol.recipeSteps {
   margin-bottom: 1em;
 }
 
-.pantry sub {
-  display: none;
-}
 
 .recipeImage {
   display: none;

@@ -4,6 +4,7 @@ import Context from '../Context';
 import './Cookbook.css'
 import { Link } from 'react-router-dom'
 import * as API from '../apiCalls'
+import { UserNotice } from '../elements/UserNotice/UserNotice'
 
 export default function Cookbook(props) {
     const context = React.useContext(Context);
@@ -16,25 +17,25 @@ export default function Cookbook(props) {
             })
             .catch(() => alert('Error!'))
     },[context.token])
-    
+
     return (
         <>
         { !context.isLoggedIn() &&
-            <section>
+            <UserNotice>
                 <h1> Whoops, you have to login before seeing your cookbook </h1>
                 <div className="small-margin-top"><Link to='/login' className='outline-button dark'> Login </Link></div>
-            </section>
+            </UserNotice>
         }
         { context.isLoggedIn() &&
             <>
             <header>
-                <div className='hero'>
+                <UserNotice>
                     <h2> Cookbook</h2>
-                    <h3> This is where you can see your saved recipes and your current list of ingredients </h3>
-                </div>
+                    <br />
+                    <sub> This is where you can see your saved recipes and your current list of ingredients </sub>
+                </UserNotice>
             </header>
             <section>
-                <h2 className="center"> Your Saved Recipes </h2>
                 { !results.length &&
                     <>
                         <div className='center'>
