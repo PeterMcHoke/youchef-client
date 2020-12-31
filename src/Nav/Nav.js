@@ -30,7 +30,8 @@ export default function Nav(props) {
                 }
                 { context.isLoggedIn() &&
                     <NavLink to={'/account'} className='nav-link'>
-                        Account
+                    <i className="fa fa-user fa-1x"></i>
+
                     </NavLink>
                 }
 
