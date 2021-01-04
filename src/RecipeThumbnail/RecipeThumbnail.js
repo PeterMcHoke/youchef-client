@@ -24,7 +24,7 @@ export default function RecipeThumbnail(props) {
             { result.missedIngredientCount ?
                 <p className='missing-ingredients'> You're only missing
                 <span className='green'> { result.missedIngredientCount } </span>
-                ingredient{result.missingIngredientCount > 1 && 's'}</p>
+                ingredient{result.missedIngredientCount > 1 && 's'}</p>
                 :
                 <p className='missing-ingredients'><span className="green">You have all of the ingredients!</span></p>
             }

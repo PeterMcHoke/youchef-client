@@ -6,6 +6,10 @@ import {StyledLinkWrapper, StyledLink} from '../elements/StyledLink/StyledLink'
 
 
 export default function Home(props) {
+
+    React.useEffect(() =>
+        fetch('http://localhost:8000/').then(r => r.json()).then(console.log), [])
+
     return (
         <Header>
             <HeaderElement flexSize='1'>

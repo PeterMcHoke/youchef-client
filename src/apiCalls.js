@@ -11,8 +11,7 @@ export function signIn(data) {
     return Promise.resolve( {
         user: {
             id: 2322343,
-            email: 'admin@email.com',
-            name: 'Peter'
+            email: 'admin@email.com'
         },
         token: 'signedInToken'
     })
