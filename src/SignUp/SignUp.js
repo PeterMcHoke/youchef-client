@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
+import {useHistory} from 'react-router';
 import * as API from '../apiCalls'
 import './SignUp.css'
-import Context from '../Context.js'
+import Context from '../Context.js';
+import { Link } from 'react-router-dom';
+// import Lottie from 'react-lottie'
+// import animationData from '../lotties/sign-up-success'
 
 export default function SignUp(props) {
-
+    const history = useHistory();
     const [ passwordType, setPasswordType ] = useState('password');
     const context = React.useContext(Context)
     const [accountStatus, setAccountStatus] = useState(null)
@@ -46,6 +50,7 @@ export default function SignUp(props) {
 
     const nextSection = (e) => {
         //using state to track where in the sign up form we are
+        console.log('nextSection being called')
        const checker = errorChecker[section];
        //if that section exists, check for errors before preceeding to next section
        if (checker) {
@@ -57,12 +62,14 @@ export default function SignUp(props) {
        }
        const form = e.target.form;
        const idx = sections.indexOf(section) + 1;
+       console.log("Value of idx: " + idx);
        if (form && idx < 3) {
         form.elements[idx].focus();
         }
        setSection(sections[idx]);
        setError(null)
        if (idx === 3) {
+           console.log()
            createAccount()
        }
     }
@@ -93,15 +100,10 @@ export default function SignUp(props) {
        }
    }
 
-
-
-
-
     const updateField = (field,val) => changeForm({...form, [field]: val})
 
 
     function createAccount() {
-        console.log('createAccount called')
         const data = {
             email: form.email,
             password: form.password
@@ -109,13 +111,13 @@ export default function SignUp(props) {
         API.createAccount(data)
             .then( res => {
                 //this is where we redirect the user and save user data to context
-                 setTimeout(() => {
-                    console.log(res)
-                    context.setUser(res.user, res.token)
-                    setAccountStatus(true)
-                 }, 1000);
+                console.log(res.user)
+                context.setUser(res.user, res.token)
+                setAccountStatus(true)
+                history.push('/find-recipes')
             })
-            .catch(() => setAccountStatus(true))
+            //change this to display error message
+            .catch(console.log)
     }
 
     const onKeyPressed = (e) => {
@@ -131,6 +133,15 @@ export default function SignUp(props) {
     const togglePasswordType = () =>
         setPasswordType(passwordType === 'password' ? 'text' : 'password')
 
+    //for Lottie animation
+    // const defaultOptions = {
+    //     loop: false,
+    //     autoplay: true,
+    //     animationData: animationData,
+    //     rendererSettings: {
+    //     preserveAspectRatio: "xMidYMid slice"
+    //     }
+    // }
 
 
     return (
@@ -154,13 +165,19 @@ export default function SignUp(props) {
                 <div className={`input-section repeat-password-section ${classFor('repeatPassword')}`}>
                   <input className="repeatPassword" type={passwordType} placeholder="Repeat Password" onChange={handleInputChange} onKeyPress={(e) => onKeyPressed(e)}/>
                   <i className="fa fa-eye-slash" onClick={togglePasswordType}></i>
-                  <div onClick={(e) => nextSection(e,createAccount)} className="animated-button"><span className={`icon-repeat-lock ${nextSymbol}`}><i className="fa fa-lock"></i></span><span className="next-button repeatPassword"><i className="fa fa-paper-plane"></i></span></div>
+                  <div onClick={(e) => nextSection(e)} className="animated-button"><span className={`icon-repeat-lock ${nextSymbol}`}><i className="fa fa-lock"></i></span><span className="next-button repeatPassword"><i className="fa fa-paper-plane"></i></span></div>
                 </div>
                 <div className={`success ${classFor('done')} input-section`}>
                   <p> {(accountStatus === null ? 'Hold on a sec...': (accountStatus ? 'Done!' : 'Failed!'))}</p>
                 </div>
             </form>
         </div>
+        { !context.isLoggedIn() &&
+        <section className="center signUp">
+            <h3> Already have an account? </h3>
+            <div className='small-margin-top'><Link to='/login'> Login </Link></div>
+        </section>
+        }
         </>
 
     )

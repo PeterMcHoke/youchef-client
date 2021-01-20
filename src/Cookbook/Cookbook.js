@@ -8,15 +8,19 @@ import { UserNotice } from '../elements/UserNotice/UserNotice'
 
 export default function Cookbook(props) {
     const context = React.useContext(Context);
-    const [_results,setResults] = useState([])
-    const results = _results.filter( r => context.savedIDs.indexOf(r.id) >= 0)
+    const [results,setResults] = useState([])
+    
     useEffect(() => {
+        setTimeout(() => {
         API.getSavedRecipes(context.token)
             .then( results => {
+                console.log('results:', results)
                 setResults(results)
+                context.initialSaved()
             })
-            .catch(() => alert('Error!'))
-    },[context.token])
+            .catch((err) => alert(err.message))
+        }, 5000);
+    }, [context.token])
 
     return (
         <>

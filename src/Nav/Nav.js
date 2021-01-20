@@ -2,7 +2,6 @@ import React from 'react';
 import { NavLink } from "react-router-dom";
 import './Nav.css';
 import Context from '../Context';
-import styled from 'styled-components'
 import { MobileNavHeader, MobileNav, StyledNav} from '../elements/StyledNav/StyledNav'
 
 export default function Nav(props) {
@@ -30,7 +29,7 @@ export default function Nav(props) {
                 }
                 { context.isLoggedIn() &&
                     <NavLink to={'/account'} className='nav-link'>
-                    <i className="fa fa-user fa-1x"></i>
+                    <i className="fa fa-gear fa-1x"></i>
 
                     </NavLink>
                 }

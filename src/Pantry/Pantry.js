@@ -22,9 +22,6 @@ const PantryWrapper = styled.section`
         padding: 0.5em;
     }
 
-    sub {
-
-    }
 `;
 
 class Pantry extends React.Component {
@@ -112,12 +109,11 @@ class Pantry extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.toggle();
-        API.fetchRecipes()
+        API.fetchRecipes(this.state.ingredients.map(i => i.name))
         .then( results => {
             this.setState({ results })
-            console.log(results)
         })
-        .catch(console.log)
+        .catch(err => alert(err.message))
     }
 
     render() {
@@ -148,7 +144,7 @@ class Pantry extends React.Component {
                             <h3 className="listHeader">Your Food</h3>
                             <ul id="currentIngredientList">
                                 { this.state.ingredients.map( (ingredient, idx) =>
-                                     <li class='listItem' key={ idx }> {ingredient.name}
+                                     <li className='listItem' key={ idx }> {ingredient.name}
                                         <i className="fa fa-times" onClick={() => this.deleteIngredient(idx)}></i>
                                      </li>
                                 )}

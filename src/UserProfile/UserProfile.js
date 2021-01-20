@@ -21,7 +21,7 @@ export default function UserProfile(props) {
             (r) => {
                 setMessage('Your email has been updated!')
                 context.updateUser({ email })
-            })
+            }).catch(err => alert(err.message))
     }
 
     const passwordSubmitted = (e) => {
@@ -45,39 +45,50 @@ export default function UserProfile(props) {
     return (
         <section className="account-section">
          { !!message && <p className="center alert-message"> {message} </p> }
-            <div className="account-form small-margin-top">
-                <h1> Account Settings </h1>
-                <hr />
-                <form onSubmit={emailSubmitted}>
-                    <div className="form-section">
-                        <label htmlFor="email"> Email </label><br />
-                        <input className="email" type="email" id="email" name="email" placeholder="youremail@gmail.com" autoComplete="chrome-off" defaultValue={context.user && context.user.email} autoFocus/>
-                            <br />
-                            <button className='outline-button'> Update </button>
-                    </div>
-                </form>
-                <form onSubmit={passwordSubmitted}>
-                    <div className="form-section">
-                        <div className='form-element'>
-                            <label htmlFor="old-password"> Old Password </label><br />
-                              <input className="password" type={passwordType} id="old-password" placeholder="Password" name="newPassword"/>
-                                <i className="fa fa-eye-slash" onClick={togglePasswordType}></i>
-                        </div>
-                        <div className='form-element'>
-                            <label htmlFor="new-password"> New Password </label><br />
-                              <input className="password" type={passwordType} id="new-password" placeholder="Password" name="oldPassword"/>
-                                <i className="fa fa-eye-slash" onClick={togglePasswordType}></i>
+         { context.isLoggedIn() ?
+            <>
+                <div className="account-form small-margin-top">
+                    <h1> Account Settings </h1>
+                    <hr />
+                    <form onSubmit={emailSubmitted}>
+                        <div className="form-section">
+                            <label htmlFor="email"> Email </label><br />
+                            <input className="email" type="email" id="email" name="email" placeholder="youremail@gmail.com" autoComplete="chrome-off" defaultValue={context.user && context.user.email} autoFocus/>
+                                <br />
                                 <button className='outline-button'> Update </button>
                         </div>
-                    </div>
-                </form>
-            </div>
-            { context.isLoggedIn() &&
+                    </form>
+                    <form onSubmit={passwordSubmitted}>
+                        <div className="form-section">
+                            <div className='form-element'>
+                                <label htmlFor="old-password"> Old Password </label><br />
+                                  <input className="password" type={passwordType} id="old-password" placeholder="Password" name="newPassword"/>
+                                    <i className="fa fa-eye-slash" onClick={togglePasswordType}></i>
+                            </div>
+                            <div className='form-element'>
+                                <label htmlFor="new-password"> New Password </label><br />
+                                  <input className="password" type={passwordType} id="new-password" placeholder="Password" name="oldPassword"/>
+                                    <i className="fa fa-eye-slash" onClick={togglePasswordType}></i>
+                                    <button className='outline-button'> Update </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
                 <StyledLinkWrapper center>
-                    <StyledLink exact to={'/'} className='nav-link button' onClick={()=> context.logout()} textColor='#00476A'>
+                    <StyledLink exact to={'/'} className='nav-link button' onClick={()=> context.logout()}>
                         Logout
                     </StyledLink>
                 </StyledLinkWrapper>
+            </>
+            :
+            <div className="center">
+                <h3> Mmm, you must be logged in to view this page. </h3>
+                <StyledLinkWrapper center>
+                    <StyledLink exact to={'/login'} className='nav-link button' >
+                        Login
+                    </StyledLink>
+                </StyledLinkWrapper>
+            </div>
             }
         </section>
     )

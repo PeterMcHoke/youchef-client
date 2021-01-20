@@ -14,11 +14,11 @@ export const StyledLink = styled(Link)`
     padding: .5rem .9rem;
     border-radius: 6px;
     box-shadow: none;
-    border: 2px solid ${props => props.white ? 'white' : '#00476A'};
-    color: ${props => props.white ? 'white' : '#00476A'};
+    border: 2px solid ${props => (props.white ? 'white' : '#00476A')};
+    color: ${props => (props.white ? 'white' : '#00476A')};
 
     &:hover {
-        background-color: ${props => props.white ? 'white' : '#00476A'};
-        color: ${props => props.white ? '#00476A': 'white'};
+        background-color: ${props => (props.white ? 'white' : '#00476A')};
+        color: ${props => (props.white ? '#00476A': 'white')};
     }
 `;

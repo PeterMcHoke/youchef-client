@@ -12,6 +12,8 @@ import CookieService from '../CookieService'
 import { GlobalStyles } from '../elements/global.js'
 import { ThemeProvider } from 'styled-components';
 import { theme } from '../elements/theme';
+import * as API from '../apiCalls';
+
 
 
 export default class App extends Component {
@@ -28,11 +30,6 @@ export default class App extends Component {
         this.setUser(user, token)
     }
 
-
-    removeRecipe = (id) => {
-        this.setState({ savedIDs: this.state.savedIDs.filter(i => i !== id)})
-    }
-
     setUser = (user, token) => {
         this.setState({ user, token })
     }
@@ -42,8 +39,28 @@ export default class App extends Component {
         CookieService.deleteLoginInfo();
     }
 
+    initialSaved = () => {
+        API.getSavedRecipes(this.state.token)
+            .then(results => {
+                results.forEach((recipe) => {
+                    //Alvaro, why does this need to be ...new Set as opposed to just {savedIDs: new Set([...this.state.savedIDs, recipe.id])}
+                    this.setState({ savedIDs: [...new Set([...this.state.savedIDs, recipe.id])] })
+                })
+            })
+    }
+
     save = (id) => {
-        this.setState({savedIDs: [...new Set([...this.state.savedIDs, id])]})
+        console.log('Save is being called with recipe id '+ id);
+        API.saveRecipe(id, this.state.token)
+            .then(res => console.log(res))
+            .then(res => this.setState({savedIDs: [...new Set([...this.state.savedIDs, id])]}))
+            .catch(err => console.log(err.message))
+    }
+
+    removeRecipe = (id) => {
+        console.log('Remove recipe is being called on id' + id)
+        API.deleteSavedRecipe(id, this.state.token)
+            .then(() => this.setState({ savedIDs: this.state.savedIDs.filter(i => i !== id) }))
     }
 
     isLoggedIn = () => !!this.state.token && !!this.state.user
@@ -69,6 +86,7 @@ export default class App extends Component {
             logout: this.logout,
             removeRecipe: this.removeRecipe,
             updateUser: this.updateUser,
+            initialSaved: this.initialSaved
         }
 
         return (

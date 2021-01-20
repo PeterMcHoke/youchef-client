@@ -52,7 +52,7 @@ export default function Login(props) {
        setSection(sections[idx]);
        setError(null)
        if (idx === 2) {
-           signIn()
+           login()
        }
     }
 
@@ -75,7 +75,6 @@ export default function Login(props) {
        updateField(e.target.className, e.target.value);
        if(e.target.value !== ''){
            setNextSymbol('next')
-
        }
        else {
            setNextSymbol('')
@@ -89,22 +88,23 @@ export default function Login(props) {
     const updateField = (field,val) => changeForm({...form, [field]: val})
 
 
-    function signIn() {
-        console.log('SignIn called')
+    function login() {
+        console.log('login called')
         const data = {
             email: form.email,
             password: form.password
         }
-        API.signIn(data)
-            .then( res => {
-                //this is where we redirect the user and save user data to context
-                 setTimeout(() => {
-                    console.log(res)
-                    context.setUser(res.user, res.token)
-                    setAccountStatus(true)
-                 }, 1000);
+        API.login(data)
+            .then(res => {
+                context.setUser(res.user, res.token)
+                setAccountStatus(true)
             })
-            .catch(() => setAccountStatus(true))
+            //change this to show the user the error
+            .catch(err => {
+                console.log(err.message)
+                setAccountStatus(false)
+                setError(err.message)
+            })
     }
 
     const onKeyPressed = (e) => {
@@ -142,7 +142,7 @@ export default function Login(props) {
                   <div onClick={(e) => nextSection(e)} className="animated-button"><span className={`icon-lock ${nextSymbol}`}><i className="fa fa-lock"></i></span><span className="next-button password"><i className="fa fa-arrow-up"></i></span></div>
                 </div>
                 <div className={`success ${classFor('done')} input-section`}>
-                  <p> {(accountStatus === null ? 'Hold on a sec...': (accountStatus ? 'Signed in!' : 'Failed!'))}</p>
+                  <p> {(accountStatus === null ? 'Hold on a sec...': (accountStatus ? 'Signed in!' : `Failed...`))}</p>
                 </div>
             </form>
         </div>
@@ -150,11 +150,13 @@ export default function Login(props) {
         { context.isLoggedIn() &&
             <>
             <UserNotice>
-                <h2> You're logged in </h2>
+                <h2> Success! </h2>
+                <br />
+                <sub> Now click the button below to put in some of your ingredients </sub>
             </UserNotice>
             <StyledLinkWrapper center>
-                <StyledLink exact to={'/find-recipes'} textColor='#00476A'>
-                    Find Recipes
+                <StyledLink exact to={'/find-recipes'} textcolor='#00476A'>
+                    Play around with YouChef
                 </StyledLink>
             </StyledLinkWrapper>
             </>

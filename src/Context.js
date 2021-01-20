@@ -6,7 +6,11 @@ const Context = React.createContext({
     token: 'string',
     setUser: () => {},
     logOut: () => {},
-    updateUser: () => {}
+    updateUser: () => {},
+    initialSaved: () => {},
+    save: () => {},
+    removeRecipe: () => {},
+    savedIDs: []
 })
 
 export default Context;
