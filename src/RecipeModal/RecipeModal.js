@@ -1,15 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Context from '../Context.js'
 import { Link } from 'react-router-dom';
 
 
 
 export default function RecipeModal(props) {
+  const context = React.useContext(Context)
+
     const handleKeyUp = (e) => {
-      console.log('Keydown is firing')
       e.preventDefault();
       if (e.keyCode === 27) {
-        console.log('e.keyCode:', e.keyCode)
         props.close()
         window.removeEventListener('keyup', handleKeyUp, false);
       }
@@ -20,19 +20,23 @@ export default function RecipeModal(props) {
           document.body.style['overflow-y'] = 'hidden';
           window.addEventListener('keyup', handleKeyUp, false);
          return () => document.body.style['overflow-y'] = 'auto';
-    });
+    }, [context.savedIDs]);
 
-    const context = React.useContext(Context)
     const { result } = props;
-    const saved = context.savedIDs.indexOf(result.id) >= 0;
+    //const saved = context.savedIDs.indexOf(result.id) >= 0;
+    const [saved, setSaved] = useState(result.isSaved)
 
-    const handleSaveClick = (e) => {
+    const handleSaveClick = (e, isSaved) => {
       e.preventDefault();
       e.stopPropagation();
-      if (saved)
-        context.removeRecipe(result.id);
-      else
+      if (isSaved) {
+        context.removeRecipe(result.id)
+          setSaved(!saved)
+      }
+      else {
         context.save(result.id)
+        setSaved(!saved);
+      }
     }
 
     const handleClick = (e) => {
@@ -41,9 +45,7 @@ export default function RecipeModal(props) {
       props.close();
     }
 
-    //Close Modal when ESC
-    
-    
+        
     const instructions = !!result.analyzedInstructions.length ?
 
     result.analyzedInstructions[0].steps.map((_, idx) =>
@@ -52,15 +54,15 @@ export default function RecipeModal(props) {
     //take away the button tag and make a button class
     : <a href= {result.sourceUrl} target="_blank" rel="noreferrer"><button>See at {result.sourceName ? result.sourceName : `original site`}</button></a>
 
-    const ingredients = result.extendedIngredients.map((ingredient, idx) =>
-    <li className="usedIngredient" key={idx}><strong>{ingredient.amount} {ingredient.unit}</strong><span className='ingredientName'> {ingredient.name}</span></li>
-)
+    const ingredients = result.extendedIngredients.map((ingredient, idx) => {
+      return <><li className="usedIngredient" key={idx}> { ingredient.image && <img src={`https://spoonacular.com/cdn/ingredients_100x100/${ingredient.image}`} alt={ingredient.name} height='20px' style={{margin: '0 10px 0 0'}}/> }<strong>{ingredient.amount} {ingredient.unit}</strong><span className='ingredientName'> {ingredient.name}</span></li></>
+    })
         return (
         <div className="flex align-center align-vert modal modal--align modal--show" id="modal" onClick={(e) => handleClick(e)}>
         <div className="modal__container">
           <i className="modal__close modal__close--x" onClick={props.close}>✕</i>
           <div className="topHalf">
-            <div className="recipeImage"><img src={result.image} alt="Bacon-Wrapped" blue="" cheese="" stuffed="" dates=""/></div>
+            <div className="recipeImage"><img src={result.image} alt="Recipe"/></div>
             <div className="recipeHeader">
               <div className="recipeTitle"><h3>{result.title}</h3></div>
               <div className="recipeTime"><i className="fa fa-clock-o"></i><p className="minutesText">{result.readyInMinutes}min</p></div>
@@ -69,7 +71,7 @@ export default function RecipeModal(props) {
                   <div className="small-margin-top">
                     <button
                         className= {`outline-button left-align ${saved ? 'green-button' : ''}`}
-                        onClick={ e => handleSaveClick(e) }>
+                        onClick={ e => handleSaveClick(e, saved) }>
                           Save{!!saved && 'd'}
                     </button>
                   </div>

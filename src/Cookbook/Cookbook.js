@@ -5,22 +5,23 @@ import './Cookbook.css'
 import { Link } from 'react-router-dom'
 import * as API from '../apiCalls'
 import { UserNotice } from '../elements/UserNotice/UserNotice'
+import Loading from '../loading/loading'
+
 
 export default function Cookbook(props) {
     const context = React.useContext(Context);
     const [results,setResults] = useState([])
-    
+    const [loading, setLoading] = useState(true)
+
     useEffect(() => {
-        setTimeout(() => {
-        API.getSavedRecipes(context.token)
-            .then( results => {
-                console.log('results:', results)
-                setResults(results)
-                context.initialSaved()
-            })
-            .catch((err) => alert(err.message))
-        }, 5000);
-    }, [context.token])
+        if (context.token)
+            API.getSavedRecipes(context.token)
+                .then(res => {
+                    setResults(res);
+                    setLoading(false)
+                })
+                .catch((err) => alert(err.message))
+    }, [context.token, context.savedIDs])
 
     return (
         <>
@@ -40,20 +41,27 @@ export default function Cookbook(props) {
                 </UserNotice>
             </header>
             <section>
-                { !results.length &&
-                    <>
-                        <div className='center'>
-                            <p className="small-margin-top"> You don't have any recipes saved yet.</p>
-                            <br />
-                            <br />
-                            <Link to='/find-recipes' className="outline-button dark med-margin-top"> Find Recipes </Link>
-                        </div>
-                    </>
+                { loading ? 
+                    <Loading /> 
+                    :
+                    (
+                        !results.length ?
+                            (
+                                <div className='center'>
+                                    <p className="small-margin-top"> You don't have any recipes saved yet.</p>
+                                    <br />
+                                    <br />
+                                    <Link to='/find-recipes' className="outline-button dark med-margin-top"> Find Recipes </Link>
+                                </div>
+                            )
+                            :
+                            <RecipeThumbnails results={results}/>
+                    )      
                 }
-                <RecipeThumbnails results={results}/>
             </section>
             </>
         }
         </>
     )
 }
+

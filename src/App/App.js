@@ -28,6 +28,8 @@ export default class App extends Component {
     componentDidMount() {
         const { user, token } = CookieService.getLoginInfo();
         this.setUser(user, token)
+        if (this.state.token)
+            this.initialSaved();
     }
 
     setUser = (user, token) => {
@@ -49,18 +51,24 @@ export default class App extends Component {
             })
     }
 
+    
     save = (id) => {
         console.log('Save is being called with recipe id '+ id);
         API.saveRecipe(id, this.state.token)
-            .then(res => console.log(res))
-            .then(res => this.setState({savedIDs: [...new Set([...this.state.savedIDs, id])]}))
-            .catch(err => console.log(err.message))
+            .then(res => {
+                if(res === 201)
+                    this.setState({savedIDs: [...this.state.savedIDs, id]})
+            })
+            .catch(err => console.log(err))
     }
 
     removeRecipe = (id) => {
         console.log('Remove recipe is being called on id' + id)
         API.deleteSavedRecipe(id, this.state.token)
-            .then(() => this.setState({ savedIDs: this.state.savedIDs.filter(i => i !== id) }))
+            .then((res) => {
+                if (res === 200)
+                    this.setState({ savedIDs: this.state.savedIDs.filter(i => i !== id) })
+            })
     }
 
     isLoggedIn = () => !!this.state.token && !!this.state.user
@@ -86,7 +94,8 @@ export default class App extends Component {
             logout: this.logout,
             removeRecipe: this.removeRecipe,
             updateUser: this.updateUser,
-            initialSaved: this.initialSaved
+            initialSaved: this.initialSaved,
+            setSaved: this.setSaved
         }
 
         return (

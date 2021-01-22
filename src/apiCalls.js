@@ -1,8 +1,12 @@
-const API_URL = 'https://gentle-tor-10264.herokuapp.com/api';
+//const API_URL = 'https://gentle-tor-10264.herokuapp.com/api';
+const API_URL = 'http://localhost:8000/api'
+
+const tap = (label) => (x) => {
+  console.log(label, x)
+  return x;
+}
 
 function fetchAPI(path, method='GET', body=null, token=null) {
-
-
   const options = {
     headers: {
       'Content-type': 'application/json'
@@ -28,8 +32,6 @@ function readResponse(r) {
 }
 
 export function createAccount(data) {
-console.log('create account being called with data: ');
-console.log(JSON.stringify(data));
     return fetch(`${API_URL}/users/signup`, {
         method: 'POST',
         body: JSON.stringify(data),
@@ -49,8 +51,8 @@ export function login(data) {
     }).then(readResponse)
 }
 
-export function fetchRecipes(ingredients) {
-    return fetch(`${API_URL}/recipes/search?ingredients=${ingredients.join(',')}`)
+export function fetchRecipes(ingredients, token) {
+  return fetchAPI(`/recipes/search?ingredients=${ingredients.join(',')}`, 'GET', null, token)
     .then(readResponse)
 }
 
@@ -74,11 +76,13 @@ export function getSavedRecipes(token) {
 
 export function saveRecipe(id, token) {
     return fetchAPI('/users/me/recipes', 'POST', { id }, token)
-        .then(readResponse)
+        .then(tap('response from saveRecipe'))
+        .then(res => res.status)
 }
 
 export function deleteSavedRecipe(id, token) {
   console.log('DeleteSavedRecipe is being called')
   return fetchAPI('/users/me/recipes', 'DELETE', { id }, token)
-    .then(readResponse)
+    .then(tap('response from deleteSavedRecipe'))
+    .then(res => res.status)
 }
