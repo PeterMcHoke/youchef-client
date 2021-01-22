@@ -4,8 +4,8 @@ import * as API from '../apiCalls'
 import './SignUp.css'
 import Context from '../Context.js';
 import { Link } from 'react-router-dom';
-// import Lottie from 'react-lottie'
-// import animationData from '../lotties/sign-up-success'
+import Lottie from 'react-lottie'
+import animationData from '../lotties/sign-up-success'
 
 export default function SignUp(props) {
     const history = useHistory();
@@ -133,15 +133,7 @@ export default function SignUp(props) {
     const togglePasswordType = () =>
         setPasswordType(passwordType === 'password' ? 'text' : 'password')
 
-    //for Lottie animation
-    // const defaultOptions = {
-    //     loop: false,
-    //     autoplay: true,
-    //     animationData: animationData,
-    //     rendererSettings: {
-    //     preserveAspectRatio: "xMidYMid slice"
-    //     }
-    // }
+
 
 
     return (

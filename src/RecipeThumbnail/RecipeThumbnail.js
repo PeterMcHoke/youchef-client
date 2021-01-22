@@ -18,24 +18,24 @@ export default function RecipeThumbnail(props) {
     return (
         <>
             <li className='recipe-result' key={result.id} onClick={() => setOpen(true)}>
-          <div className='recipe-image modal-trigger' style={ style }>
-            <div className="readyInMin">
-            <i className="fa fa-clock-o" aria-hidden="true"></i>
-            <p className="minutesText">{ result.readyInMinutes }min</p>
-            </div>
-            <h3 className="recipe-name">{ result.title }</h3>
-            { !result.missedIngredientCount ?
-                        <p className='missing-ingredients'>Saved on { result.savedDate ? result.savedDate : today}</p>
-                :
-                (result.missedIngredientCount ? 
-                    <p className='missing-ingredients'> You're only missing <span className='green'> { result.missedIngredientCount } </span>
-                    ingredient{result.missedIngredientCount > 1 && 's'}</p>
-                    :
-                    <p className='missing-ingredients'><span className="green">You have all of the ingredients!</span></p>
-                )
-            }
-          </div>
-      </li>
+                <div className='recipe-image modal-trigger' style={ style }>
+                    <div className="readyInMin">
+                    <i className="fa fa-clock-o" aria-hidden="true"></i>
+                    <p className="minutesText">{ result.readyInMinutes }min</p>
+                    </div>
+                    <h3 className="recipe-name">{ result.title }</h3>
+                    { result.missedIngredientCount === undefined ?
+                                <p className='missing-ingredients'>Saved on { result.savedDate ? result.savedDate : today}</p>
+                        :
+                        (result.missedIngredientCount ? 
+                            <p className='missing-ingredients'> You're only missing <span className='green'> { result.missedIngredientCount } </span>
+                            ingredient{result.missedIngredientCount > 1 && 's'}</p>
+                            :
+                            <p className='missing-ingredients'><span className="green">You have all of the ingredients!</span></p>
+                        )
+                    }
+                </div>
+            </li>
       { isOpen && <RecipeModal close={close} result={ result }/> }
       </>
     )
